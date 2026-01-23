@@ -69,7 +69,6 @@ swagger-mcp-server/
 **Database**:
 - 모든 DB 쿼리는 `aiosqlite`로 비동기 처리
 - 트랜잭션 관리 (여러 테이블에 데이터 삽입 시 atomic 보장)
-- SQL injection 방지를 위해 파라미터화된 쿼리 사용
 
 **MCP Tool Implementation**:
 - 각 MCP 도구는 명확한 입력 파라미터 스키마 정의
