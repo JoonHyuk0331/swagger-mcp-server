@@ -13,3 +13,10 @@ wheels/
 *.db
 *.sqlite
 *.sqlite3
+
+# IDE
+.idea/
+.vscode/
+
+# Logs
+*.log
