@@ -12,22 +12,23 @@ Swagger API 문서 탐색용 MCP 서버입니다. Spring Boot 서버의 Swagger 
 
 ## Development Setup
 
-**Python Version**: 3.9+ (`.python-version`)
+**Python Version**: 3.12+ (`.python-version`)
 **Package Manager**: uv
 
 ## Tech Stack
             
-- Python 3.9+
+- Python 3.12+
 - SQLite
 - aiosqlite
 - httpx
 - pydantic
+- mcp
 
 **Core Dependencies**:
 - `mcp` - Anthropic MCP SDK
 - `pydantic` - 데이터 검증
 - `httpx` - Swagger JSON 가져오기
-- `aiosqlite` - 비동기 SQLite
+- `aiosqlite` - 비동기 SQLite (MCP는 비동기 기반)
 
 ## Project Structure
 
@@ -64,7 +65,6 @@ swagger-mcp-server/
 **Error Handling**:
 - HTTP 요청 실패, DB 에러, JSON 파싱 에러 등 예상 가능한 예외 처리
 - MCP 도구 함수에서 에러 발생 시 사용자에게 명확한 에러 메시지 반환
-- 로깅을 통해 디버깅 정보 제공
 
 **Database**:
 - 모든 DB 쿼리는 `aiosqlite`로 비동기 처리
@@ -81,11 +81,6 @@ swagger-mcp-server/
 - 타입 힌트를 모든 함수 시그니처에 추가
 
 ## Git Workflow
-
-**Branch Strategy**:
-- `main` - 안정적인 프로덕션 코드
-- 기능 개발 시 feature 브랜치 생성: `feature/tool-name` 또는 `feature/description`
-- 버그 수정 시: `fix/issue-description`
 
 **Commit Message Format**:
 ```
