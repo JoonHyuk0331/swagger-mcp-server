@@ -3,12 +3,44 @@
 Swagger API 문서 탐색용 MCP 서버입니다. Spring Boot 서버의 Swagger JSON을 파싱하여 SQLite DB에 저장하고, Claude가 MCP를 통해 DB를 조회하며 API 정보를 탐색합니다.
 
 ## Why?
-
-**핵심 가치**:
 - As-is: LLM이 Swagger UI나 코드베이스를 일일이 읽어야 함 (부정확한 답변, 높은 토큰 사용량, 느린 응답)
 - To-be: Claude가 자연어로 질문하면 MCP 도구들이 DB 쿼리로 빠르고 정확한 정보를 제공
 
-## 설치
+## System Architecture
+<img width="512" height="491" alt="mcp아키텍처" src="https://github.com/user-attachments/assets/8f5f68a6-1890-4d35-b8d6-7c87714bee1d" />
+
+
+## 사용 예시
+
+Claude Desktop 또는 Cluade Code Cli에서 다음과 같이 사용할 수 있습니다:
+
+```
+"http://localhost:8080/v3/api-docs에서 Swagger를 동기화해줘"
+→ sync_swagger 도구 실행
+
+"GET 메서드 엔드포인트 목록을 보여줘"
+→ list_endpoints 도구 실행 (method=GET)
+
+"사용자 관련 API를 찾아줘"
+→ list_endpoints 도구 실행 (path_pattern=user)
+
+"엔드포인트 ID 5의 상세 정보를 알려줘"
+→ get_endpoint_details 도구 실행
+
+"UserRequest 스키마 구조를 보여줘"
+→ get_schema 도구 실행
+```
+## 개선결과
+<img width="370" height="512" alt="mcp결과짤" src="https://github.com/user-attachments/assets/62dcb83c-b43c-4577-8980-bb66e351dec7" />
+
+- 구조화된 DB 쿼리 기반 조회로 토큰 사용량 3.3k -> 1.1k 절감 및 할루시네이션 제거하여 API 문서 정확도 확보
+- 코드 파일 I/O → DB 쿼리(인덱스)로 전환하여 응답 소요 시간 단축  
+- 버전 관리 기능 및 자연어 기반 API 탐색으로 개발자 경험 개선
+
+
+
+
+## 사용법
 
 **요구사항**: Python 3.10+
 
@@ -28,8 +60,6 @@ source .venv/bin/activate
 # 의존성 설치
 uv pip install -e .
 ```
-
-## 사용법
 
 ### 1. MCP 서버 실행
 
@@ -113,20 +143,6 @@ swagger-mcp-server/
 ├── pyproject.toml    # 프로젝트 설정
 └── swagger.db        # SQLite 데이터베이스 (자동 생성)
 ```
-
-## 예시
-
-Claude Desktop에서 다음과 같이 사용할 수 있습니다:
-
-```
-"http://localhost:8080/v3/api-docs에서 Swagger를 동기화해줘"
-→ sync_swagger 도구 실행
-
-"GET 메서드 엔드포인트 목록을 보여줘"
-→ list_endpoints 도구 실행 (method=GET)
-
-"사용자 관련 API를 찾아줘"
-→ list_endpoints 도구 실행 (path_pattern=user)
 
 "엔드포인트 ID 5의 상세 정보를 알려줘"
 → get_endpoint_details 도구 실행
